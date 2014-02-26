@@ -2,7 +2,7 @@ void setup() {
 
   // canvas
   size(800, 800);
-  
+
   // white background
   background(255, 255, 255);
 
@@ -14,12 +14,14 @@ void setup() {
 // Purpose: Draws a tree with a certain number of levels of recursion
 //
 // Parameters:     depth          How many levels to recurse
-void drawTree(int depth) {
+//                 branchWidth    How thick the branches will be drawn  
+void drawTree(int depth, float branchWidth) {
 
   // Exit condition for recursion
   if (depth > 0) {
     // base - 100 pixels long
-    stroke(0, 0, 255); // blue
+    stroke(102, 50, 0); // brown
+    strokeWeight(branchWidth);
     line(0, 0, 100, 0);
 
     // move to end of base to draw branches
@@ -30,27 +32,44 @@ void drawTree(int depth) {
     float leftRotation = random(-35, 20);
     println ("L " + leftRotation);
     rotate(radians(leftRotation));
-    stroke(255, 0, 0); // red
+    stroke(102, 50, 0); // brown
+    strokeWeight(branchWidth);
     line(0, 0, 100, 0); // draw branch
     translate(100, 0); // translate to end before drawing next Y
-    drawTree(depth-1);
+    drawTree(depth-1, branchWidth*.5);
     popMatrix();
-
+    
     // draw right branch
     pushMatrix();
     float rightRotation = random(-35, 20);
     println ("R " +rightRotation);
     rotate(radians(rightRotation));
     stroke(0, 255, 0); // green
+    strokeWeight(branchWidth);
     line(0, 0, 100, 0); // draw branch
     translate(100, 0); // translate to end before drawing next Y
-    drawTree(depth-1);
+    drawTree(depth-1, branchWidth*.5);
     popMatrix();
+    
+    
+    // draw middle branch
+    pushMatrix();
+    float middleRotation = random(-35, 20);
+    println ("M " + middleRotation);
+    rotate(radians(middleRotation));
+    stroke(102, 50, 0); // brown
+    strokeWeight(branchWidth);
+    line(0, 0, 100, 0); // draw branch
+    translate(100, 0); // translate to end before drawing next Y
+    drawTree(depth-1, branchWidth*.5);
+    popMatrix();
+    
+    
+    
   }
 }
 
 void draw() {
-  
 }
 
 // startTree
@@ -70,9 +89,14 @@ void startTree() {
   // draw tree starting upright
   rotate(radians(-90));
 
-  // thicker branches
-  strokeWeight(5);
-
   // start tree off...
-  drawTree(2);
+  drawTree(5, 20);
+}
+
+// Responds to keyboard key presses
+void keyPressed() {
+
+  if (key == 'r') {
+    startTree();
+  }
 }
